@@ -1,0 +1,50 @@
+@charset "ISO-8859-1";
+
+header{
+	background-color:#EEEEFF;
+	height:10em;
+	
+}
+
+main{
+	border-top:		1px solid black;
+	border-bottom:	1px solid black;
+}
+
+footer{
+	display:flex;
+	align-items:center;
+	background-color:#EEEEFF;
+	height:10em;
+}
+
+.table{
+	width:50%;
+	border:1px solid silver;
+}
+.table tbody tr td{
+	text-align: center;
+}
+
+.table tbody tr td a{
+	padding-left:1em;
+	padding-right:1em;
+	text-decoration:none;
+	color:white;
+	border:1px solid silver;
+	background-color:#CCCCCC;
+	box-shadow:2px 2px 2px silver;
+}
+.table tbody tr td a:hover{
+	box-shadow:none;
+	text-decoration:none;
+	color:black;
+	border:1px solid silver;
+	background-color:#FFFFFF;
+}
+
+.over{
+	border:solid 1px silver;
+	height:10em;
+	overflow:auto;
+}
