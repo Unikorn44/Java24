@@ -89,16 +89,65 @@ public class WelcomeServlet extends HttpServlet {
 		
 	}
 	
-	protected Actor jpaExemple() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
-		EntityManager em = factory.createEntityManager();
-		
-		Actor actor = em.find(Actor.class, 1);
-		
-		em.close();
-		
-		return actor;
-	}
+	//protected Actor jpaExemple() {
+	//	EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
+	//	EntityManager em = factory.createEntityManager();
+	//	
+	//	Actor actor = em.find(Actor.class, 1);
+	//	
+	//	em.close();
+	//	
+	//	return actor;
+	//}
+	
+	//méthode pour retrouver UN acteur via ccès direct des données
+		protected Actor jpaExemple() {
+			//Création EntityFactoryManager pour les lier tous
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
+			//Attention pas d'autoclosable
+			EntityManager em = factory.createEntityManager();
+			
+			
+			/*
+			    find
+				persist
+				merge
+				detach
+				refresh
+				remove
+			 */
+			Actor actor = em.find(Actor.class, 1);
+			//em.persist(nouvel actor)
+			//em.remove(un actor)
+			//em.refresh(entity) -- pour rafraichir avec la data en bdd
+			//em.detach(entity)
+			//em.flush() ---- Attention ! OBLIGE le EM à METTRE A JOUR la BDD (sans vérifications)
+			
+			
+			
+			/*
+			 * Transaction
+			 * 
+			 * em.getTransaction().begin()
+			 * boolean transcat = false;
+			 * 
+			 * try{
+			 * 
+			 * }
+			 * finally{
+			 * 	if(transac)
+			 * 		em.getTransaction().commit();
+			 * 	else
+			 * 		em.getTransaction().rollback();
+			 * 
+			 * }
+			 */
+			
+			
+			em.close();
+			
+			return actor;
+		}
 	
 	
 

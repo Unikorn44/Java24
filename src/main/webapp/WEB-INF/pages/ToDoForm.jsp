@@ -21,7 +21,7 @@
 		
 	</div>
 	
-	<script>
+	<!-- <script>
 		fetch("/Base/todoRessources")
 			 .then((response) => response.json())
 			 .then((data)=>{
@@ -35,6 +35,6 @@
 					liste.appendChild(option);
 				} 
 		 });
-	</script>	
+	</script>  -->	
 </body>
 </html>

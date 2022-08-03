@@ -7,17 +7,23 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.m2i.models.Actor;
+import fr.m2i.models.Todo;
+
 
 /**
  * Servlet implementation class Todo
  */
-@WebServlet("/Todo")
+@WebServlet("/todo")
 public class TodoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -39,6 +45,9 @@ public class TodoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		System.out.println("Le todo est : " + this.jpaExemple().getTache());
+		System.out.println("Le description est : " + this.jpaExemple().getDescription());
 		this.getServletContext().getRequestDispatcher(PAGE).forward(request, response);
 		
 		
@@ -88,4 +97,53 @@ public class TodoServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
+	
+	//méthode pour retrouver UN acteur via ccès direct des données
+		protected Todo jpaExemple() {
+			//Création EntityFactoryManager pour les lier tous
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
+			//Attention pas d'autoclosable
+			EntityManager em = factory.createEntityManager();
+			
+			
+			/*
+			    find
+				persist
+				merge
+				detach
+				refresh
+				remove
+			 */
+			Todo todo = em.find(Todo.class, 1);
+			//em.persist(nouvel actor)
+			//em.remove(un actor)
+			//em.refresh(entity) -- pour rafraichir avec la data en bdd
+			//em.detach(entity)
+			//em.flush() ---- Attention ! OBLIGE le EM à METTRE A JOUR la BDD (sans vérifications)
+			
+			
+			
+			/*
+			 * Transaction
+			 * 
+			 * em.getTransaction().begin()
+			 * boolean transcat = false;
+			 * 
+			 * try{
+			 * 
+			 * }
+			 * finally{
+			 * 	if(transac)
+			 * 		em.getTransaction().commit();
+			 * 	else
+			 * 		em.getTransaction().rollback();
+			 * 
+			 * }
+			 */
+			
+			
+			em.close();
+			
+			return todo;
+		}
 }

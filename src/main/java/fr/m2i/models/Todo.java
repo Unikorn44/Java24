@@ -1,8 +1,25 @@
 package fr.m2i.models;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="todolist")
 public class Todo {
 	
+	@Id
+	@Column(name="id")
+	private Integer id;
+	
+	@Basic
+	@Column(name="tache")
 	private String _tache;
+	
+	@Basic
+	@Column(name="description")
 	private String _description;
 	
 	public String getTache() {
@@ -19,6 +36,10 @@ public class Todo {
 	}
 	
 	//constructeur
+	
+	public Todo() {	
+	}
+	
 	public Todo(String tache, String description){
 		this.setTache(tache);
 		this.setDescription(description);
