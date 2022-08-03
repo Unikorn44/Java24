@@ -10,11 +10,13 @@ import java.sql.Statement;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import fr.m2i.models.Actor;
 import fr.m2i.models.Todo;
@@ -23,41 +25,32 @@ import fr.m2i.models.Todo;
 /**
  * Servlet implementation class Todo
  */
+import fr.m2i.Db.DaoFactory;
+
+
 @WebServlet("/todo")
 public class TodoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String PAGE = "/WEB-INF/pages/ToDoForm.jsp";
 	
-	private static final String BDD = "jdbc:mysql://localhost:3306/todobase";
-	private static final String LOGIN = "root";
-	private static final String MDP = "FormationM2i";
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+	//private static final String BDD = "jdbc:mysql://localhost:3306/todobase";
+	//private static final String LOGIN = "root";
+	//private static final String MDP = "FormationM2i";
+		
     public TodoServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		System.out.println("Le todo est : " + this.jpaExemple().getTache());
 		System.out.println("Le description est : " + this.jpaExemple().getDescription());
 		this.getServletContext().getRequestDispatcher(PAGE).forward(request, response);
 		
-		
-		
-		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
@@ -72,11 +65,18 @@ public class TodoServlet extends HttpServlet {
 				
 		try {
 			/* Chargement driver */
-			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+			//DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 			
 			/* Connexion à la base de données */
-			Connection connection = DriverManager.getConnection(BDD, LOGIN, MDP);
-			Statement statement = connection.createStatement();
+			//Connection connection = DriverManager.getConnection(BDD, LOGIN, MDP);
+			DaoFactory dataFactory = null;
+			try {
+				dataFactory = new DaoFactory();
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Connection connection = dataFactory.getConnection();
 			
 			/* Exécution commande */
 			preparedStatement = connection.prepareStatement("INSERT INTO todolist (tache, description) values(?,?)");
@@ -87,7 +87,7 @@ public class TodoServlet extends HttpServlet {
 			preparedStatement.executeUpdate();
 			
 			/* Fermer liaison DB */
-			statement.close();
+			preparedStatement.close();
 			connection.close();
 			
 		} catch(SQLException e) {

@@ -10,7 +10,7 @@
 <body>
 	
 	<fieldset>
-		<form method="POST" action="<c:url value="/Todo" />" >
+		<form method="POST" action="<c:url value="/todo" />" >
 			<input type="text" name="tache">
 			<input type="text" name="description">
 			<input type="submit" value="creer" >
