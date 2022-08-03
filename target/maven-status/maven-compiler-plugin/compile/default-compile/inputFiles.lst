@@ -1,8 +1,9 @@
-C:\Users\phmel\Documents\workspace-spring-tool-suite-4\structure\src\main\java\fr\m2i\models\Todo.java
-C:\Users\phmel\Documents\workspace-spring-tool-suite-4\structure\src\main\java\fr\m2i\servlets\TodoServlet.java
-C:\Users\phmel\Documents\workspace-spring-tool-suite-4\structure\src\main\java\fr\m2i\servlets\WelcomeServlet.java
-C:\Users\phmel\Documents\workspace-spring-tool-suite-4\structure\src\main\java\fr\m2i\models\Actor.java
-C:\Users\phmel\Documents\workspace-spring-tool-suite-4\structure\src\main\java\fr\m2i\models\ActorDaoImpl.java
-C:\Users\phmel\Documents\workspace-spring-tool-suite-4\structure\src\main\java\fr\m2i\api\WelcomeService.java
-C:\Users\phmel\Documents\workspace-spring-tool-suite-4\structure\src\main\java\fr\m2i\Db\DaoFactory.java
-C:\Users\phmel\Documents\workspace-spring-tool-suite-4\structure\src\main\java\fr\m2i\models\ActorDao.java
+C:\Users\jerem\Documents\Formation M2I\Programmes\Serveur\Java24\src\main\java\fr\m2i\models\ActorDaoImpl.java
+C:\Users\jerem\Documents\Formation M2I\Programmes\Serveur\Java24\src\main\java\fr\m2i\servlets\WelcomeServlet.java
+C:\Users\jerem\Documents\Formation M2I\Programmes\Serveur\Java24\src\main\java\fr\m2i\api\WelcomeService.java
+C:\Users\jerem\Documents\Formation M2I\Programmes\Serveur\Java24\src\main\java\fr\m2i\Db\DaoFactory.java
+C:\Users\jerem\Documents\Formation M2I\Programmes\Serveur\Java24\src\main\java\fr\m2i\servlets\TodoServlet.java
+C:\Users\jerem\Documents\Formation M2I\Programmes\Serveur\Java24\src\main\java\fr\m2i\Ressources\TodoListRessources.java
+C:\Users\jerem\Documents\Formation M2I\Programmes\Serveur\Java24\src\main\java\fr\m2i\models\Actor.java
+C:\Users\jerem\Documents\Formation M2I\Programmes\Serveur\Java24\src\main\java\fr\m2i\models\ActorDao.java
+C:\Users\jerem\Documents\Formation M2I\Programmes\Serveur\Java24\src\main\java\fr\m2i\models\Todo.java

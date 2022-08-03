@@ -72,7 +72,7 @@
 </main>
 
 <footer>
-	<em>(c)2022 - M2i</em>
+	<em>(c)2022 - M2i !</em>
 </footer>
 
 	
