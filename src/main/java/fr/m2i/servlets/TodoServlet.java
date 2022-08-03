@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TodoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	private static final String PAGE = "/WEB-INF/pages/ToDoForm.jsp";
 	
 	private static final String BDD = "jdbc:mysql://localhost:3306/todobase";
 	private static final String LOGIN = "root";

@@ -49,15 +49,15 @@ public class UserlogServlet extends HttpServlet {
 		Boolean transaction = false;
 		
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 			connection = DriverManager.getConnection(BDD, LOGIN, MDP);
 			
-			try (PreparedStatement ps = connection.prepareStatement("INSERT INTO user (name) VALUES ('toto')")){
+			try (PreparedStatement ps = connection.prepareStatement("INSERT INTO user (name) VALUES ('tata')")){
 				
 				ps.executeUpdate();
 			}
 			
-			try (PreparedStatement ps = connection.prepareStatement("INSERT INTO log (description) VALUES ('Une description')")){
+			try (PreparedStatement ps = connection.prepareStatement("INSERT INTO log (description) VALUES ('Une autre description')")){
 				
 				ps.executeUpdate();
 			}
@@ -66,8 +66,6 @@ public class UserlogServlet extends HttpServlet {
 					
 		} catch (SQLException e) {
 			System.out.println("ERREUUUUUR" + e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if(transaction) {
 				try {
