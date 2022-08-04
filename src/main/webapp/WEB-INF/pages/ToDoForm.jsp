@@ -18,8 +18,17 @@
 	</fieldset>
 	
 	<div id="list">
-		
+		<c:forEach var="element" items="${ todoListRecup }">
+			<form method="POST" action="<c:url value="/todo?parametre=remove&id=${element.id}" />" >
+				<input type="submit" value="remove" >
+			</form>
+			<c:out value="${element.tache}"/>
+			<c:out value="${element.description}"/> 
+			<p>--</p>
+		</c:forEach>
 	</div>
+	
+	
 	
 	<!-- <script>
 		fetch("/Base/todoRessources")
@@ -36,5 +45,7 @@
 				} 
 		 });
 	</script>  -->	
+	
+	
 </body>
 </html>

@@ -3,6 +3,8 @@ package fr.m2i.models;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,6 +13,7 @@ import javax.persistence.Table;
 public class Todo {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Integer id;
 	
@@ -22,6 +25,11 @@ public class Todo {
 	@Column(name="description")
 	private String _description;
 	
+	//INDISPENSABLE POUR JSTL
+	public Integer getId() {
+		return id;
+	}
+
 	public String getTache() {
 		return _tache;
 	}
@@ -44,4 +52,7 @@ public class Todo {
 		this.setTache(tache);
 		this.setDescription(description);
 	}
+	
+
+	
 }

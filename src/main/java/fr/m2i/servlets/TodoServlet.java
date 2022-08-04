@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -44,61 +45,152 @@ public class TodoServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("Le todo est : " + this.jpaExemple().getTache());
-		System.out.println("Le description est : " + this.jpaExemple().getDescription());
+		//System.out.println("Le todo est : " + this.jpaExemple().getTache());
+		//System.out.println("Le description est : " + this.jpaExemple().getDescription());
+		//this.getServletContext().getRequestDispatcher(PAGE).forward(request, response);
+		
+		//Création EntityFactoryManager pour les lier tous
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
+		//Attention pas d'autoclosable
+		EntityManager em = factory.createEntityManager();
+		
+		//affichage de toute la liste
+		//REQUEST NATIVE
+		//Peut ajouter des conditions
+		//List<Todo> todos = em.createNativeQuery("SELECT * FROM todos").getResultList();
+		//Todo todoFounded = (Todo) em.createNativeQuery("SELECT * FROM todos WHERE tache = ?", Todo.class)
+		//		.setParameter(1, "douche")
+		//		.getSingleResult();
+		//set parameter : affecte la valeur "douche" au parametre 1
+		//DONC... va chercher la tache dont le paramêtre en colonne "tache" est "douche"
+		
+		@SuppressWarnings("unchecked")
+		List<Todo> todoListRecup = em.createNativeQuery("SELECT * FROM todolist", Todo.class).getResultList();
+				
+		//Préparation élement pour renvoi via request
+		request.setAttribute("todoListRecup", todoListRecup);
+		
+		
+		em.close();
+		
 		this.getServletContext().getRequestDispatcher(PAGE).forward(request, response);
 		
 	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 
-		System.out.println(response);
+		String param = request.getParameter("parametre"); 
 		
-		String tache = request.getParameter("tache");
-		String description = request.getParameter("description");
-		
-		System.out.println("la tâche est : " + tache);
-		
-		PreparedStatement preparedStatement = null;
-				
-		try {
-			/* Chargement driver */
-			//DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+		if (param.equals("remove")) {
 			
-			/* Connexion à la base de données */
-			//Connection connection = DriverManager.getConnection(BDD, LOGIN, MDP);
-			DaoFactory dataFactory = null;
-			try {
-				dataFactory = new DaoFactory();
-			} catch (NamingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Connection connection = dataFactory.getConnection();
+			String id = request.getParameter("id"); 
 			
-			/* Exécution commande */
-			preparedStatement = connection.prepareStatement("INSERT INTO todolist (tache, description) values(?,?)");
+			this.removeTache(id);
 			
-			preparedStatement.setString(1, tache);
-			preparedStatement.setString(2, description);
-				
-			preparedStatement.executeUpdate();
-			
-			/* Fermer liaison DB */
-			preparedStatement.close();
-			connection.close();
-			
-		} catch(SQLException e) {
-			System.out.print(e);
 		}
 		
-		doGet(request, response);
-	}
-
+		
+			String tache = request.getParameter("tache");
+			String description = request.getParameter("description");
+			
+			/*PreparedStatement preparedStatement = null;
+					
+			//try {
+				/* Chargement driver */
+				//DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+				
+				/* Connexion à la base de données */
+				//Connection connection = DriverManager.getConnection(BDD, LOGIN, MDP);
+				/*DaoFactory dataFactory = null;
+				try {
+					dataFactory = new DaoFactory();
+				} catch (NamingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Connection connection = dataFactory.getConnection();
+				
+				/* Exécution commande */
+				/*preparedStatement = connection.prepareStatement("INSERT INTO todolist (tache, description) values(?,?)");
+				
+				preparedStatement.setString(1, tache);
+				preparedStatement.setString(2, description);
+					
+				preparedStatement.executeUpdate();
+				
+				/* Fermer liaison DB */
+				/*preparedStatement.close();
+				connection.close();
+				
+			} catch(SQLException e) {
+				System.out.print(e);
+			}*/
+			
+			//Création EntityFactoryManager pour les lier tous
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
+			//Attention pas d'autoclosable
+			EntityManager em = factory.createEntityManager();
+			
+			Todo todo = new Todo(tache, description);
+					
+			
+			//Transaction pour CREATION nouveau todo
+			// !!! obligation de passer par TRANSACTION !!!
+			em.getTransaction().begin();
+			boolean transac = false;  
+			  
+			try{
+			  em.persist(todo);
+			  transac = true;
+			}
+			finally{
+			  if(transac)
+			  	em.getTransaction().commit();
+			  else
+			  	em.getTransaction().rollback();
+			 
+			 }
+			
+			em.close();
+			
+			doGet(request, response);
+		}
 	
-	//méthode pour retrouver UN acteur via ccès direct des données
+		
+		//Methide pour remove tache selon id
+		protected void removeTache(String id) {
+		
+			//Création EntityFactoryManager pour les lier tous
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
+			//Attention pas d'autoclosable
+			EntityManager em = factory.createEntityManager();
+			
+			int idInt = Integer.parseInt(id);
+			
+			Todo todo = em.find(Todo.class, idInt);
+			
+			em.getTransaction().begin();
+			boolean transac = false;  
+			  
+			try{
+			  em.remove(todo);
+			  transac = true;
+			}
+			finally{
+			  if(transac)
+			  	em.getTransaction().commit();
+			  else
+			  	em.getTransaction().rollback();
+			  }
+			
+			em.close();
+		}
+	
+	
+	
+	
+		//méthode pour retrouver UN acteur via ccès direct des données
 		protected Todo jpaExemple() {
 			//Création EntityFactoryManager pour les lier tous
 			EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
@@ -146,4 +238,6 @@ public class TodoServlet extends HttpServlet {
 			
 			return todo;
 		}
+		
+		
 }
