@@ -24,7 +24,7 @@
 			</form>
 			<c:out value="${element.tache}"/>
 			<c:out value="${element.description}"/>
-			<form method="POST" action="<c:url value="/todo?parametre=update&id=${element.id}"/>" >
+			<form method="POST" action="<c:url value="/todo?parametre=update&id=${element.id}&'description'" />" >
 				<input type="submit" value="update" >
 				<input type="text" name="description">
 			</form> 

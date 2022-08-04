@@ -201,9 +201,8 @@ public class TodoServlet extends HttpServlet {
 		//méthode changement description todo
 		protected void udpateTodo(String id, String description) {
 			
-			//Création EntityFactoryManager pour les lier tous
 			EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
-			//Attention pas d'autoclosable
+			
 			EntityManager em = factory.createEntityManager();
 			
 			int idInt = Integer.parseInt(id);
@@ -216,20 +215,21 @@ public class TodoServlet extends HttpServlet {
 			em.getTransaction().begin();
 			boolean transac = false;  
 			  
-			try{
-				// modification valeurs
+			try {
+				// modification valeurs dans BDD
 				em.merge(todo);
 				transac = true;
 			}
-			finally{
-			  if(transac)
+			finally {
+			
+				if(transac) {
 			  	em.getTransaction().commit();
-			  else
+			  }else {
 			  	em.getTransaction().rollback();
 			  }
 			
 			em.close();
-			
+			}
 		}
 	
 	
