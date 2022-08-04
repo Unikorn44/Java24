@@ -81,6 +81,8 @@ public class TodoServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String param = request.getParameter("parametre"); 
+		String tache = request.getParameter("tache");
+		String description = request.getParameter("description");
 		
 		if (param.equals("remove")) {
 			
@@ -88,11 +90,21 @@ public class TodoServlet extends HttpServlet {
 			
 			this.removeTache(id);
 			
+		} else {
+			
+			this.createTodo(tache, description);
+		
 		}
 		
 		
-			String tache = request.getParameter("tache");
-			String description = request.getParameter("description");
+			
+			
+			doGet(request, response);
+		}
+	
+		//méthode pour créer Todo
+		protected void createTodo(String tache, String description) {
+			
 			
 			/*PreparedStatement preparedStatement = null;
 					
@@ -153,11 +165,8 @@ public class TodoServlet extends HttpServlet {
 			 }
 			
 			em.close();
-			
-			doGet(request, response);
-		}
+		}	
 	
-		
 		//Methide pour remove tache selon id
 		protected void removeTache(String id) {
 		
