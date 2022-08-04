@@ -89,83 +89,81 @@ public class TodoServlet extends HttpServlet {
 			String id = request.getParameter("id"); 
 			
 			this.removeTache(id);
-			
-		} else {
-			
-			this.createTodo(tache, description);
-		
 		}
-		
-		
 			
-			
-			doGet(request, response);
+		if (param.equals("creation")) {
+					
+			this.createTodo(tache, description);
 		}
 	
-		//méthode pour créer Todo
-		protected void createTodo(String tache, String description) {
-			
-			
-			/*PreparedStatement preparedStatement = null;
-					
-			//try {
-				/* Chargement driver */
-				//DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+		doGet(request, response);
+		
+	}	
+	
+	//méthode pour créer Todo
+	protected void createTodo(String tache, String description) {
+		
+		
+		/*PreparedStatement preparedStatement = null;
 				
-				/* Connexion à la base de données */
-				//Connection connection = DriverManager.getConnection(BDD, LOGIN, MDP);
-				/*DaoFactory dataFactory = null;
-				try {
-					dataFactory = new DaoFactory();
-				} catch (NamingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				Connection connection = dataFactory.getConnection();
-				
-				/* Exécution commande */
-				/*preparedStatement = connection.prepareStatement("INSERT INTO todolist (tache, description) values(?,?)");
-				
-				preparedStatement.setString(1, tache);
-				preparedStatement.setString(2, description);
-					
-				preparedStatement.executeUpdate();
-				
-				/* Fermer liaison DB */
-				/*preparedStatement.close();
-				connection.close();
-				
-			} catch(SQLException e) {
-				System.out.print(e);
-			}*/
+		//try {
+			/* Chargement driver */
+			//DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 			
-			//Création EntityFactoryManager pour les lier tous
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
-			//Attention pas d'autoclosable
-			EntityManager em = factory.createEntityManager();
-			
-			Todo todo = new Todo(tache, description);
-					
-			
-			//Transaction pour CREATION nouveau todo
-			// !!! obligation de passer par TRANSACTION !!!
-			em.getTransaction().begin();
-			boolean transac = false;  
-			  
-			try{
-			  em.persist(todo);
-			  transac = true;
+			/* Connexion à la base de données */
+			//Connection connection = DriverManager.getConnection(BDD, LOGIN, MDP);
+			/*DaoFactory dataFactory = null;
+			try {
+				dataFactory = new DaoFactory();
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			finally{
-			  if(transac)
-			  	em.getTransaction().commit();
-			  else
-			  	em.getTransaction().rollback();
-			 
-			 }
+			Connection connection = dataFactory.getConnection();
 			
-			em.close();
-		}	
+			/* Exécution commande */
+			/*preparedStatement = connection.prepareStatement("INSERT INTO todolist (tache, description) values(?,?)");
+			
+			preparedStatement.setString(1, tache);
+			preparedStatement.setString(2, description);
+				
+			preparedStatement.executeUpdate();
+			
+			/* Fermer liaison DB */
+			/*preparedStatement.close();
+			connection.close();
+			
+		} catch(SQLException e) {
+			System.out.print(e);
+		}*/
+		
+		//Création EntityFactoryManager pour les lier tous
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
+		//Attention pas d'autoclosable
+		EntityManager em = factory.createEntityManager();
+		
+		Todo todo = new Todo(tache, description);
+				
+		
+		//Transaction pour CREATION nouveau todo
+		// !!! obligation de passer par TRANSACTION !!!
+		em.getTransaction().begin();
+		boolean transac = false;  
+		  
+		try{
+		  em.persist(todo);
+		  transac = true;
+		}
+		finally{
+		  if(transac)
+		  	em.getTransaction().commit();
+		  else
+		  	em.getTransaction().rollback();
+		 
+		 }
+		
+		em.close();
+	}	
 	
 		//Methide pour remove tache selon id
 		protected void removeTache(String id) {
