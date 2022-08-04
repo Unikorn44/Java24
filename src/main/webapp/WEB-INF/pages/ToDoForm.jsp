@@ -23,7 +23,11 @@
 				<input type="submit" value="remove" >
 			</form>
 			<c:out value="${element.tache}"/>
-			<c:out value="${element.description}"/> 
+			<c:out value="${element.description}"/>
+			<form method="POST" action="<c:url value="/todo?parametre=update&id=${element.id}"/>" >
+				<input type="submit" value="update" >
+				<input type="text" name="description">
+			</form> 
 			<p>--</p>
 		</c:forEach>
 	</div>

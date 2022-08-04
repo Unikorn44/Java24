@@ -68,8 +68,7 @@ public class TodoServlet extends HttpServlet {
 		List<Todo> todoListRecup = em.createNativeQuery("SELECT * FROM todolist", Todo.class).getResultList();
 				
 		//Préparation élement pour renvoi via request
-		request.setAttribute("todoListRecup", todoListRecup);
-		
+		request.setAttribute("todoListRecup", todoListRecup);		
 		
 		em.close();
 		
@@ -83,10 +82,9 @@ public class TodoServlet extends HttpServlet {
 		String param = request.getParameter("parametre"); 
 		String tache = request.getParameter("tache");
 		String description = request.getParameter("description");
+		String id = request.getParameter("id"); 
 		
-		if (param.equals("remove")) {
-			
-			String id = request.getParameter("id"); 
+		if (param.equals("remove")) {			
 			
 			this.removeTache(id);
 		}
@@ -94,6 +92,11 @@ public class TodoServlet extends HttpServlet {
 		if (param.equals("creation")) {
 					
 			this.createTodo(tache, description);
+		}
+		
+		if (param.equals("update")) {
+			
+			this.udpateTodo(id, description);
 		}
 	
 		doGet(request, response);
@@ -194,7 +197,40 @@ public class TodoServlet extends HttpServlet {
 			em.close();
 		}
 	
-	
+		
+		//méthode changement description todo
+		protected void udpateTodo(String id, String description) {
+			
+			//Création EntityFactoryManager pour les lier tous
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
+			//Attention pas d'autoclosable
+			EntityManager em = factory.createEntityManager();
+			
+			int idInt = Integer.parseInt(id);
+			
+			//retrouve todo
+			Todo todo = em.find(Todo.class, idInt);
+			//modification description
+			todo.setDescription(description);
+			
+			em.getTransaction().begin();
+			boolean transac = false;  
+			  
+			try{
+				// modification valeurs
+				em.merge(todo);
+				transac = true;
+			}
+			finally{
+			  if(transac)
+			  	em.getTransaction().commit();
+			  else
+			  	em.getTransaction().rollback();
+			  }
+			
+			em.close();
+			
+		}
 	
 	
 		//méthode pour retrouver UN acteur via ccès direct des données
