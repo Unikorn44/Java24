@@ -19,6 +19,24 @@
 	<h1><strong><c:out value="${'Template V1.0'}"></c:out></strong></h1>
 </header>
 <main>
+	<div>
+		<p> Le client 
+		<c:forEach var="client" items="${ listClients }">
+			<c:out value="${ client.nom }"/>
+			a commandé les références suivantes :
+				<c:forEach var="commande" items="${ client.commandes }">
+					 <c:out value="${ commande.reference }"/> -- 
+				</c:forEach>
+			</p>	
+			<p> il habite : <c:out value="${ client.adresse.rue }"/> </p>
+			<br>
+		</c:forEach>		
+	</div>
+	
+
+
+
+	<!-- 
 	<fieldset>
 		<legend>Acces WS</legend>
 		<table class="table">
@@ -38,7 +56,7 @@
 	</fieldset>
 	
 	
-	
+
 	<fieldset>
 		<legend>Example JDBC</legend>
 		<div class="over">
@@ -67,12 +85,12 @@
 			</c:forEach>
 		</select>
 	
-	</fieldset>
+	</fieldset> -->
 	
 </main>
 
 <footer>
-	<em>(c)2022 - M2i </em>
+	<em>(c)2022 - M2i !</em>
 </footer>
 
 	

@@ -22,6 +22,8 @@ import javax.sql.DataSource;
 
 import fr.m2i.Db.DaoFactory;
 import fr.m2i.models.Actor;
+import fr.m2i.models.Client;
+import fr.m2i.models.Commande;
 
 /**
  * Servlet implementation class WelcomeServlet
@@ -48,11 +50,24 @@ public class WelcomeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setAttribute("exemple",DaoFactory.getInstance().getActorDao().lister());
+		//request.setAttribute("exemple",DaoFactory.getInstance().getActorDao().lister());
 		
+		/*request.setAttribute("actors",this.exempleDataAccess());
+		request.setAttribute("actor", this.jpaExemple());*/
 		
-		request.setAttribute("actors",this.exempleDataAccess());
-		request.setAttribute("actor", this.jpaExemple());
+		//Création EntityFactoryManager pour les lier tous
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
+		//Attention pas d'autoclosable
+		EntityManager em = factory.createEntityManager();
+		
+		List<Client> clients = em.createNamedQuery("findAllClients", Client.class).getResultList();
+		
+		// !!! bien penser au fetch
+		//List<Commande> commande = em.createQuery("select c from Commande c join fetch c.client client where client.id = 1", Commande.class).getResultList();
+		
+		request.setAttribute("listClients", clients);
+		
+		em.close();
 		
 		this.getServletContext().getRequestDispatcher(PAGE).forward(request, response);
 	}
@@ -63,10 +78,12 @@ public class WelcomeServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	
+	
 	}
 	
 	
-	protected List<String> exempleDataAccess() {
+	/*protected List<String> exempleDataAccess() {
 		
 
 		List<String> elements = new LinkedList<>(); 
@@ -87,7 +104,7 @@ public class WelcomeServlet extends HttpServlet {
 		
 		return elements;
 		
-	}
+	}*/
 	
 	//protected Actor jpaExemple() {
 	//	EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
@@ -101,7 +118,7 @@ public class WelcomeServlet extends HttpServlet {
 	//}
 	
 	//méthode pour retrouver UN acteur via ccès direct des données
-		protected Actor jpaExemple() {
+	/*	protected Actor jpaExemple() {
 			//Création EntityFactoryManager pour les lier tous
 			EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
 			//Attention pas d'autoclosable
@@ -116,7 +133,7 @@ public class WelcomeServlet extends HttpServlet {
 				refresh
 				remove
 			 */
-			Actor actor = em.find(Actor.class, 1);
+			/*Actor actor = em.find(Actor.class, 1);*/
 			//em.persist(nouvel actor)
 			//em.remove(un actor)
 			//em.refresh(entity) -- pour rafraichir avec la data en bdd
@@ -144,10 +161,10 @@ public class WelcomeServlet extends HttpServlet {
 			 */
 			
 			
-			em.close();
+		/*	em.close();
 			
 			return actor;
-		}
+		}*/
 	
 	
 

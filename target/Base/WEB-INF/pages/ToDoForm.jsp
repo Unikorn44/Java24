@@ -10,7 +10,7 @@
 <body>
 	
 	<fieldset>
-		<form method="POST" action="<c:url value="/Todo" />" >
+		<form method="POST" action="<c:url value="/todo?parametre=creation" />" >
 			<input type="text" name="tache">
 			<input type="text" name="description">
 			<input type="submit" value="creer" >
@@ -18,10 +18,23 @@
 	</fieldset>
 	
 	<div id="list">
-		
+		<c:forEach var="element" items="${ todoListRecup }">
+			<form method="POST" action="<c:url value="/todo?parametre=remove&id=${element.id}" />" >
+				<input type="submit" value="remove" >
+			</form>
+			<c:out value="${element.tache}"/>
+			<c:out value="${element.description}"/>
+			<form method="POST" action="<c:url value="/todo?parametre=update&id=${element.id}&'description'" />" >
+				<input type="submit" value="update" >
+				<input type="text" name="description">
+			</form> 
+			<p>--</p>
+		</c:forEach>
 	</div>
 	
-	<script>
+	
+	
+	<!-- <script>
 		fetch("/Base/todoRessources")
 			 .then((response) => response.json())
 			 .then((data)=>{
@@ -35,6 +48,8 @@
 					liste.appendChild(option);
 				} 
 		 });
-	</script>	
+	</script>  -->	
+	
+	
 </body>
 </html>

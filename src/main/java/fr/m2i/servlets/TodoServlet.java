@@ -61,6 +61,11 @@ public class TodoServlet extends HttpServlet {
 		//Todo todoFounded = (Todo) em.createNativeQuery("SELECT * FROM todos WHERE tache = ?", Todo.class)
 		//		.setParameter(1, "douche")
 		//		.getSingleResult();
+		//Peut aussi utiliser ETIQUETTES
+		//Todo todoFounded = (Todo) em.createNativeQuery("SELECT * FROM todos WHERE id = :id", Todo.class)
+		//		.setParameter("id", id)
+		
+		
 		//set parameter : affecte la valeur "douche" au parametre 1
 		//DONC... va chercher la tache dont le paramêtre en colonne "tache" est "douche"
 		
@@ -276,11 +281,24 @@ public class TodoServlet extends HttpServlet {
 			 * }
 			 */
 			
-			
 			em.close();
 			
 			return todo;
 		}
 		
-		
+		//Utlisation namedQuery
+		protected Todo SelectById(String id) {
+			
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("UnityPersist");
+			//Attention pas d'autoclosable
+			EntityManager em = factory.createEntityManager();
+			
+			Todo todo = em.createNamedQuery("SelectById", Todo.class)
+						.setParameter("id", id)
+						.getSingleResult();
+			
+			em.close();
+			
+			return todo;
+		}
 }

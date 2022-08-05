@@ -6,10 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="todolist")
+@NamedQueries({
+	@NamedQuery(name="selectAll", query="select element from Todo element"),
+	@NamedQuery(name="selectById", query="select element from Todo element where element.id = :id"),
+	@NamedQuery(name="deleteById", query="delete from Todo element where element.id = :id")
+})
 public class Todo {
 	
 	@Id
@@ -43,8 +50,7 @@ public class Todo {
 		this._description = description;
 	}
 	
-	//constructeur
-	
+	//constructeurS
 	public Todo() {	
 	}
 	
